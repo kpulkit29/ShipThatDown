@@ -1,0 +1,81 @@
+<div id="mySidenav" class="sidenav">
+  <!-- <a href="" class="closebtn" (click)="closeNav()">&times;</a> -->
+  <a href="#" [ngClass]="(currentTab=='product')?'active':''" (click)="changeTab('product')">Add Product</a>
+  <a href="#" [ngClass]="(currentTab=='place')?'active':''" (click)="changeTab('place')">Place Order</a>
+  <a href="#" [ngClass]="(currentTab=='pay/state')?'active':''" (click)="changeTab('pay/state')">Change State/Pay</a>
+  <a href="#" [ngClass]="(currentTab=='track')?'active':''" (click)="changeTab('track')">Track Order</a>
+</div>
+
+<!-- Use any element to open the sidenav -->
+
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+  <span (click)="openNav()"><img src="assets/images/menu.svg" style="Width:30px;height:30px;" ></span>
+  <div style="width:80%;height:auto;padding:10px;display:block;margin:auto;border:1.5px solid #3F51B5;box-shadow:1px 1px 1px 1px;" *ngIf="currentTab=='product'">
+      <h1 style="font-size:25px;text-align:center;margin:10px;">Add New Product(onlyOwner)</h1>
+    <form [formGroup]="newPr" (ngSubmit)="addNew(newPr.value)">
+      <input type="text" placeholder="Enter product name" formControlName="name"><br>
+      <input type="number" placeholder="Enter Price" formControlName="price">
+      <button  [disabled]="!newPr.valid" type="submit" style="width:60%;height:30px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;display:block;margin:auto;margin-top:30px;">Submit</button>
+    </form>
+   
+  </div>
+ 
+  <div style="width:60%;height:auto;padding:5px;display:block;margin:auto;" *ngIf="currentTab=='product'">
+      <hr style="border:1px solid black;margin:10px;"> 
+    <h1 style="font-size:25px;text-align:center;margin:10px;">Products</h1>
+    <ul>
+      <li *ngFor="let i of products;let ind=index" style="width:100%;height:auto;padding:5px;text-align:center;">
+          <h4 style="font-size:20px;margin:5px;">Id:{{ind}}</h4>
+            <h4 style="font-size:20px;margin:5px;">Name:{{i.Name}}</h4>
+            <p style="font-size:16px;margin:5px;">Price:{{i.price}}</p>
+            <button style="width:100%;height:50px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;float:right;display:block;margin:auto;">Available</button><br>
+            <hr style="border:1px solid black;margin-top:10px;"> 
+      </li>
+    </ul>
+  </div>
+  <!-- place order -->
+  <form style="width:60%;display:block;margin:auto;" *ngIf="currentTab=='place'" [formGroup]="newOrder" (ngSubmit)="addOrder(newOrder.value)">
+    <fieldset>
+        <legend>Place Product id</legend>
+       <input type="number" placeholder="id" formControlName="id">
+       <input type="text" placeholder="Your Address" formControlName="address">
+       <button type="submit" [disabled]="!newOrder.valid" style="width:60%;height:30px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;display:block;margin:auto;margin-top:30px;">Submit</button>
+    </fieldset>
+  </form>
+  <form style="width:60%;display:block;margin:auto;" *ngIf="currentTab=='pay/state'">
+      <fieldset>
+          <legend>Pay</legend>
+         <input type="text" placeholder="Enter Address" name="buyer" [(ngModel)]="buyer" >
+         <button (click)="pay()" style="width:60%;height:30px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;display:block;margin:auto;margin-top:30px;">Submit</button>
+      </fieldset>
+    </form>
+    <div class="divider" *ngIf="currentTab=='pay/state'">
+        <hr class="left"/>OR<hr class="right" />
+    </div>
+    <form style="width:80%;display:block;margin:auto;" *ngIf="currentTab=='pay/state'">
+          Change State<br>
+         <input type="text" placeholder="Enter Address" name="buyer" [(ngModel)]="buyer" >
+         <input type="text" placeholder="Enter new state" name="currState" [(ngModel)]="currState">
+         <button (click)="changeSt()" style="width:60%;height:30px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;display:block;margin:auto;margin-top:30px;">Go</button>
+    </form>
+    <div id="popup1" class="overlay">
+        <div class="popup">
+          <h2>Here i am</h2>
+          <a class="close" href="#">&times;</a>
+          <div class="content">
+            Thank to pop me out of that button, but now i'm done so you can close this window.
+          </div>
+        </div>
+      </div>
+    
+    <div *ngIf="currentTab=='track'">
+      <h1 style="font-size:25px;text-align:center;margin:10px;">Enter your address to see the status</h1>
+      <form style="width:60%;display:block;margin:auto;">
+           <input type="text" name="buyer3" [(ngModel)]="buyer3" >
+           <button (click)="getState()" style="width:60%;height:30px;font-size:16px;padding:3px;color:#3F51B5;border:1.5px solid #3F51B5;display:block;margin:auto;margin-top:30px;">Go</button>
+      </form>
+    </div>
+    <a *ngIf="showPop" href="#popup1" id="pop"></a>
+</div>

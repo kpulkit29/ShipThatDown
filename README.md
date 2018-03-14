@@ -1,1 +1,2 @@
 # ShipThatDown
+A tool that eliminates the delays and the middleman in shipping process through a simplified smart contract controlling the app flow.There would be a list of the products that the trader would put up.The buyer can then place and track order by accessing the continously updated states of the smart contract.
